@@ -3,6 +3,8 @@ import QueuedSongList from './QueuedSongList'
 import { Card, CardContent, Typography, IconButton, Slider, CardMedia, makeStyles } from '@material-ui/core';
 import {SkipPrevious, SkipNext, PlayArrow, Pause} from '@material-ui/icons';
 import {SongContext} from '../App'
+import { useQuery } from '@apollo/react-hooks';
+import { GET_QUEUED_SONGS } from '../graphql/queries';
 
 const useStyles = makeStyles(theme => ({ 
     container:{
@@ -33,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function SongPlayer () {
+const { data }=  useQuery(GET_QUEUED_SONGS)
 const {state, dispatch}  = useContext(SongContext)
 const classes = useStyles()
 
@@ -81,7 +84,7 @@ function handleTogglePlay(){
 
            
             </Card>   
-            <QueuedSongList />
+            <QueuedSongList queue={data.queue} />
     </>
     
     )
