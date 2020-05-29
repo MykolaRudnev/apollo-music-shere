@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import QueuedSongList from './QueuedSongList'
 import { Card, CardContent, Typography, IconButton, Slider, CardMedia, makeStyles } from '@material-ui/core';
-import {SkipPrevious, SkipNext, PlayArrow} from '@material-ui/icons';
-
+import {SkipPrevious, SkipNext, PlayArrow, Pause} from '@material-ui/icons';
+import {SongContext} from '../App'
 
 const useStyles = makeStyles(theme => ({ 
     container:{
@@ -33,7 +33,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 function SongPlayer () {
+const {state, dispatch}  = useContext(SongContext)
 const classes = useStyles()
+
+function handleTogglePlay(){
+    dispatch(state.isPlaying ? { type:"PAUSE_SONG" } :{ type:"PLAY_SONG" })
+}
 
     return (
     <>
@@ -42,18 +47,18 @@ const classes = useStyles()
             <div className={classes.details}>
                 <CardContent className={classes.content}>
                     <Typography variant="h5" component="h3">
-                        Title
+                        {state.song.title}
                     </Typography>
                     <Typography variant="subtitle1" component="p" color="textSecondary">
-                        Artist
+                    {state.song.artist}
                     </Typography>
                 </CardContent>
                  <div className={classes.controls}>
                     <IconButton>
                         <SkipPrevious/>
                     </IconButton>
-                    <IconButton>
-                        <PlayArrow className={classes.playIcon}/>
+                    <IconButton onClick={handleTogglePlay}>
+                      {state.isPlaying ?<Pause className={classes.playIcon}/> : <PlayArrow className={classes.playIcon}/>}
                     </IconButton>
                     <IconButton>
                         <SkipNext/>
@@ -71,7 +76,7 @@ const classes = useStyles()
             </div>
             <CardMedia 
             className={classes.thumbnail}
-                image="http://img.youtube.com/vi/--ZtUFsIgMk/0.jpg"
+                image={state.song.thumbnail}
             />
 
            
