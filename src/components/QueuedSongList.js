@@ -3,20 +3,21 @@ import { Typography, Avatar, IconButton, makeStyles, useMediaQuery } from '@mate
 import { Delete } from '@material-ui/icons'
 
 function QueuedSongList ({queue}) {
-    console.log({queue})
+    
     const greaterThenMd =  useMediaQuery(theme => theme.breakpoints.up('md'));
 
-    const song = {
-        title:"LUNE",
-        artist:"MOON",
-        thumbnail: "http://img.youtube.com/vi/--ZtUFsIgMk/0.jpg"
-    }
+    // const song = {
+    //     title:"LUNE",
+    //     artist:"MOON",
+    //     thumbnail: "http://img.youtube.com/vi/--ZtUFsIgMk/0.jpg"
+    // }
+
     return greaterThenMd && (
         <div style={{margin: '10px 0'}}>
             <Typography color='textSecondary' variant="button">
-                QUEUE(%)
+                QUEUE({queue.length})
             </Typography> 
-            {Array.from({ length: 5}, () => song).map((song, i) => (
+            {queue.map((song, i) => (
                 <QueuedSong key={i} song={song} />
             ))}
         </div>
